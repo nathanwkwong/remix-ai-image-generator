@@ -1,5 +1,5 @@
 import { ActionArgs, json, V2_MetaFunction } from '@remix-run/node';
-import { Form, useActionData, useNavigation } from '@remix-run/react';
+import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { generateImage } from '~/handlers/openaiHandler';
 
@@ -49,10 +49,20 @@ export default function Index() {
     const { success, error, data } = actionData || {};
 
     return (
-        <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
-            <p className="mx-auto mt-6 max-w-lg text-center text-xl text-black sm:max-w-3xl">
-                Open AI Image Generator 👋
-            </p>
+        <div
+            style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}
+            className="mx-auto max-w-4xl">
+            <div className="my-6 flex justify-between">
+                <p className="text text-red text-xl font-bold text-gray-700 sm:max-w-3xl">
+                    Open AI Image Generator
+                </p>
+                <Link
+                    to={'https://platform.openai.com/docs/introduction'}
+                    className="text-blue-600 underline ">
+                    Open AI API Docs
+                </Link>
+            </div>
+
             <Form method="post">
                 <p>
                     <label>
@@ -61,20 +71,23 @@ export default function Index() {
                             type="text"
                             name="description"
                             className={inputClassName}
-                            key={'description'}
-                            defaultValue={''}
+                            key="description"
+                            defaultValue=""
                         />
                     </label>
+                    {typeof error !== 'string' && (
+                        <p style={{ color: 'red' }}>{error?.description}</p>
+                    )}
                 </p>
                 <button
                     type="submit"
                     name="intent"
                     value="create"
-                    className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
+                    className="my-6  rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
                     disabled={isCreating}>
-                    Create Image
+                    Generate Image
                 </button>
-                {!isCreating && error && !success ? (
+                {!isCreating && typeof error === 'string' && !success ? (
                     <div>{`generate image failed: ${error}`}</div>
                 ) : null}
 
