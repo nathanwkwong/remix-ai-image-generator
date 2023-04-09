@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# remix-ai-image-generator
 
 An AI image generator using [Open AI Image Generation API](https://platform.openai.com/docs/guides/images/usage) with fullstack React framework [Remix](https://platform.openai.com/docs/guides/images/usage) deployed on [here](https://remix-ai-image-generator.vercel.app).
 
